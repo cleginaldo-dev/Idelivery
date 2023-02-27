@@ -1,18 +1,34 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
-	route2 "github.com/code/imersao-full-cycle-simulator/application/route"
+	"github.com/code/imersao-full-cycle-simulator/infra/kafka"
+	"github.com/joho/godotenv"
 )
 
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("error loading .env file")
+	}
+}
+
 func main() {
-	route := route2.Route{
-		Id:       "1",
-		ClientId: "1",
+
+	producer := kafka.NewKafkaProducer()
+	kafka.Publish("Hola", "readtest", producer)
+
+	for {
+		_ = 1
 	}
 
-	route.LoadPositions()
-	stringJson, _ := route.ExportJsonPositions()
-	fmt.Print(stringJson[0])
+	// route := route2.Route{
+	// 	Id:       "1",
+	// 	ClientId: "1",
+	// }
+
+	// route.LoadPositions()
+	// stringJson, _ := route.ExportJsonPositions()
+	// fmt.Print(stringJson[0])
 }
